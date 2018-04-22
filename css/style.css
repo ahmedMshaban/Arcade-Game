@@ -1,6 +1,7 @@
 body {
     text-align: center;
 }
+
 .modal {
     display: none;
     position: fixed;
