@@ -1,12 +1,13 @@
-var Time = function () {
- this.gameStart = Date.now();
- this.timeNow = Date.now();
+//Track the start time of the game to use it on the enmey appear
+var Time = function() {
+    this.gameStart = Date.now();
+    this.timeNow = Date.now();
 };
 
 Time.prototype.timeCalculate = function() {
-   this.timeNow = Date.now();
-   return this.timeNow - this.gameStart;
-}
+    this.timeNow = Date.now();
+    return this.timeNow - this.gameStart;
+};
 
 // Enemies our player must avoid
 var Enemy = function() {
@@ -25,12 +26,12 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    if ((time.timeCalculate()) >= this.show  ) {
-      this.x += (this.step)*dt;
+    if ((time.timeCalculate()) >= this.show) {
+        this.x += (this.step) * dt;
     }
-    if(this.x > 505) {
-      this.random();
-      this.show += time.timeCalculate();
+    if (this.x > 505) {
+        this.random();
+        this.show += time.timeCalculate();
     }
 };
 
@@ -39,9 +40,10 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+// Random position the enemy on the screen
 Enemy.prototype.random = function() {
     this.x = -101;
-    this.y = (Math.floor(Math.random() * 3) + 1) * 83 - 21 ;
+    this.y = (Math.floor(Math.random() * 3) + 1) * 83 - 21;
     this.step = Math.floor(Math.random() * 250) + 70;
     this.show = Math.floor(Math.random() * 7000) + 1;
 };
@@ -51,67 +53,67 @@ Enemy.prototype.random = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
-  this.sprite = 'images/char-pink-girl.png';
-  this.x = 202;
-  this.y = 394;
+    this.sprite = 'images/char-pink-girl.png';
+    this.x = 202;
+    this.y = 394;
 };
 
 Player.prototype.update = function(allowedKeys) {
-  if(allowedKeys === "left") {
-    this.x = this.x - 101;
-  }
-  if(allowedKeys === "right") {
-    this.x = this.x + 101;
-  }
-  if(allowedKeys === "up") {
-    this.y = this.y - 83;
-    if(this.y === -21) {
-      this.win();
-   }
-  }
-  if(allowedKeys === "down") {
-    this.y = this.y + 83;
-  }
+    if (allowedKeys === "left") {
+        this.x = this.x - 101;
+    }
+    if (allowedKeys === "right") {
+        this.x = this.x + 101;
+    }
+    if (allowedKeys === "up") {
+        this.y = this.y - 83;
+        if (this.y === -21) {
+            this.win();
+        }
+    }
+    if (allowedKeys === "down") {
+        this.y = this.y + 83;
+    }
 };
 
 Player.prototype.render = function() {
-  ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 Player.prototype.handleInput = function(allowedKeys) {
-  if(allowedKeys === "left") {
-    if(this.x !== 0) {
-      this.update(allowedKeys);
+    if (allowedKeys === "left") {
+        if (this.x !== 0) {
+            this.update(allowedKeys);
+        }
     }
-  }
-  if(allowedKeys === "right") {
-    if(this.x !== 404) {
-      this.update(allowedKeys);
+    if (allowedKeys === "right") {
+        if (this.x !== 404) {
+            this.update(allowedKeys);
+        }
     }
-  }
-  if(allowedKeys === "up") {
-    if(this.y !== -21) {
-      this.update(allowedKeys);
+    if (allowedKeys === "up") {
+        if (this.y !== -21) {
+            this.update(allowedKeys);
+        }
     }
-  }
-  if(allowedKeys === "down") {
-    if(this.y !== 394) {
-      this.update(allowedKeys);
+    if (allowedKeys === "down") {
+        if (this.y !== 394) {
+            this.update(allowedKeys);
+        }
     }
-  }
 };
 
 Player.prototype.reset = function() {
-  this.x = 202;
-  this.y = 394;
+    this.x = 202;
+    this.y = 394;
 };
 
 //Display message when player wins
 Player.prototype.win = function() {
-   setTimeout(function(){
-     player.reset();
-   }, 500);
-   modal.style.display = "block";
+    setTimeout(function() {
+        player.reset();
+    }, 500);
+    modal.style.display = "block";
 };
 
 // Now instantiate your objects.
@@ -121,9 +123,9 @@ Player.prototype.win = function() {
 var time = new Time();
 
 var allEnemies = [];
-for(var i = 0; i < 7; i++) {
-  var enemy = new Enemy();
-  allEnemies.push(enemy);
+for (var i = 0; i < 7; i++) {
+    var enemy = new Enemy();
+    allEnemies.push(enemy);
 }
 
 var player = new Player();
